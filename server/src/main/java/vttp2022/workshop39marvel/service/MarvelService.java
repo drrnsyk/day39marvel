@@ -101,7 +101,7 @@ public class MarvelService {
         for (int i = 0; i < results.size(); i++) {
             JsonObject joResult = results.getJsonObject(i);
             JsonObject thumbnail = joResult.getJsonObject("thumbnail");
-            characters.add(Character.create(data, joResult, thumbnail));
+            characters.add(Character.create(joResult, thumbnail));
         }
 
         return characters;

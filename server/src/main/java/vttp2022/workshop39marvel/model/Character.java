@@ -8,7 +8,6 @@ public class Character {
     private String id;
     private String name;
     private String imageurl;
-    private String totalCount;
 
     public String getId() {
         return id;
@@ -34,21 +33,12 @@ public class Character {
         this.imageurl = imageurl;
     }
 
-    public String getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(String totalCount) {
-        this.totalCount = totalCount;
-    }
-
     // helper functions
-    public static Character create(JsonObject data, JsonObject joResult, JsonObject thumbnail) {
+    public static Character create(JsonObject joResult, JsonObject thumbnail) {
         Character c = new Character();
         c.setId(Integer.toString(joResult.getInt("id")));
         c.setName(joResult.getString("name"));
         c.setImageurl(thumbnail.getString("path") + "." + thumbnail.getString("extension"));
-        c.setTotalCount(Integer.toString(data.getInt("count")));
         return c;
     }
 
@@ -57,7 +47,6 @@ public class Character {
             .add("id", id)
             .add("name", name)
             .add("imageurl", imageurl)
-            .add("totalResultCount", totalCount)
             .build();
     }
 
