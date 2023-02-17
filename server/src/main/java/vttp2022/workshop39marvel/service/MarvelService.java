@@ -76,7 +76,7 @@ public class MarvelService {
             // Throws an exception if status code not in between 200 - 399
             resp = template.exchange(req, String.class);
             payload = resp.getBody();
-            System.out.println("payload: " + payload);
+            // System.out.println("payload: " + payload);
 
         } catch (Exception ex) {
             System.err.printf("Error: %s\n", ex.getMessage());
@@ -86,20 +86,22 @@ public class MarvelService {
         Reader strReader = new StringReader(payload);
         JsonReader jsonReader = Json.createReader(strReader);
 
-        JsonObject result = jsonReader.readObject();
+        JsonObject jo = jsonReader.readObject();
 
         System.out.println("---------------------------------------");
-        System.out.println(result);
+        System.out.println(jo);
         System.out.println("---------------------------------------");
 
-        JsonObject dataResult = result.getJsonObject("data");
-        JsonArray charactersJsonArray = dataResult.getJsonArray("results");
+        JsonObject data = jo.getJsonObject("data");
+        JsonArray results = data.getJsonArray("results");
+        
 
         List<Character> characters = new LinkedList<>();
 
-        for (int i = 0; i < charactersJsonArray.size(); i++) {
-            JsonObject jo = charactersJsonArray.getJsonObject(i);
-            characters.add(Character.create(jo));
+        for (int i = 0; i < results.size(); i++) {
+            JsonObject joResult = results.getJsonObject(i);
+            JsonObject thumbnail = joResult.getJsonObject("thumbnail");
+            characters.add(Character.create(data, joResult, thumbnail));
         }
 
         return characters;

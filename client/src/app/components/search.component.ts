@@ -22,6 +22,7 @@ export class SearchComponent implements OnInit {
   // for the pagination display
   offsetCurrentIndex: number = 0
   pageNo: number = 1
+  maxPage: number = 0
 
 
 
@@ -36,17 +37,19 @@ export class SearchComponent implements OnInit {
 
   // to get the value of the search field
   doSearch() {
+    this.offsetCurrentIndex = 0
+    this.pageNo = 1
     this.searchTerm = this.searchForm.get('searchTerm')?.value
     console.info('>>> ngSubmit(): searchTerm: ', this.searchTerm)
     console.info(">>> ngSubmit(): noOfRecPerPage: ", this.noOfRecPerPage)
     this.marvelSvc.getCharacters(this.searchTerm, this.noOfRecPerPage, this.offsetCurrentIndex) // calls the service to make http request to spring boot
-    .then(result => { // get the result from the http request
-      this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
-    })
-    .catch(error => {
-      console.info('>>> in error')
-      console.error('>>> error: ', error)
-    })
+      .then(result => { // get the result from the http request
+        this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
+      })
+      .catch(error => {
+        console.info('>>> in error')
+        console.error('>>> error: ', error)
+      })
     this.searchForm.reset()
   }
 
@@ -54,7 +57,8 @@ export class SearchComponent implements OnInit {
   newRecPerPage() {
     // console.log("newRecPerPage")
     console.info(">>> newRecPerPage(): noOfRecPerPage: ", this.noOfRecPerPage)
-    this.noOfRecPerPage = this.pageForm.value["noOfRecPerPage"]
+    this.noOfRecPerPage = +this.pageForm.get("noOfRecPerPage")?.value; // use this + to cast as number
+    console.info('>>> newRecPerPage(): noOfRecPerPage: ', this.noOfRecPerPage)
     this.marvelSvc.getCharacters(this.searchTerm, this.noOfRecPerPage, this.offsetCurrentIndex) // calls the service to make http request to spring boot
       .then(result => { // get the result from the http request
         this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
@@ -89,27 +93,29 @@ export class SearchComponent implements OnInit {
   nextPage() {
     this.pageNo++
     this.offsetCurrentIndex = this.offsetCurrentIndex + this.noOfRecPerPage
+    console.info('>>> nextPage(): noOfRecPerPage: ', this.noOfRecPerPage)
+    console.info('>>> nextPage(): offsetCurrentIndex: ', this.offsetCurrentIndex)
     this.marvelSvc.getCharacters(this.searchTerm, this.noOfRecPerPage, this.offsetCurrentIndex) // calls the service to make http request to spring boot
-    .then(result => { // get the result from the http request
-      this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
-    })
-    .catch(error => {
-      console.info('>>> in error')
-      console.error('>>> error: ', error)
-    })
+      .then(result => { // get the result from the http request
+        this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
+      })
+      .catch(error => {
+        console.info('>>> in error')
+        console.error('>>> error: ', error)
+      })
   }
 
   previousPage() {
     this.pageNo--
     this.offsetCurrentIndex = this.offsetCurrentIndex - this.noOfRecPerPage
     this.marvelSvc.getCharacters(this.searchTerm, this.noOfRecPerPage, this.offsetCurrentIndex) // calls the service to make http request to spring boot
-    .then(result => { // get the result from the http request
-      this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
-    })
-    .catch(error => {
-      console.info('>>> in error')
-      console.error('>>> error: ', error)
-    })
+      .then(result => { // get the result from the http request
+        this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here
+      })
+      .catch(error => {
+        console.info('>>> in error')
+        console.error('>>> error: ', error)
+      })
   }
 
 
