@@ -32,7 +32,9 @@
             <ul *ngFor="let c of characters">
                 <span><img src="{{c.imageurl}}" width="50" height="50"></span>
                 &nbsp;
-                <span>{{c.name}}</span>
+                <a  [routerLink]="[ '/character', c.id ]">
+                    <span>{{c.name}}</span>
+                </a>
             </ul>
     
             <div *ngIf="pageNo == 1">

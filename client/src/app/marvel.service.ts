@@ -6,12 +6,12 @@ import { Character } from "./model";
 @Injectable()
 export class MarvelService {
 
-    constructor(private http: HttpClient) {}
-
     /* the service is use to make http request, the data from the request can be pass 
     from the service to any of the component. just use the component that you want the data
     to be in to call the service. if search is the entry point, use navigate to get another component
     to call service so that the data can be passed into that component */
+
+    constructor(private http: HttpClient) {}
 
     // http can return an observable<Character> or a promise<Character>
     // observable: do not need to use firstValueFrom, straight away return this.http.get
@@ -26,7 +26,23 @@ export class MarvelService {
             .set("offset", offset)
 
         return firstValueFrom<Character[]>(
-            this.http.get<Character[]>('/api/characters', { params })
+            this.http.get<Character[]>('/api/characters', { params }) // send http get request to springboot
+        )
+    }
+
+    getCharacterById(id: string): Promise<Character> {
+        return firstValueFrom<Character>(
+            this.http.get<any>(`/api/character/${id}`) // send http get request to springboot
+                .pipe(
+                    take(1),
+                    map(c => {
+                        return {
+                            id: c.id,
+                            name: c.name,
+                            imageurl: c.imageurl
+                        } as Character
+                    })
+                )
         )
     }
 }

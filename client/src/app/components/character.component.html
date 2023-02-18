@@ -1,0 +1,12 @@
+<h1>Marvel Character Details:</h1>
+
+<div *ngIf="character != null">
+    <ul>
+        <span><img src="{{character.imageurl}}" width="300" height="300"></span>
+        <table>
+            <tr>
+                <td><h2>{{character.name}}</h2></td>
+            </tr>
+        </table>
+    </ul>
+</div>
