@@ -7,6 +7,7 @@ public class Character {
 
     private String id;
     private String name;
+    private String description;
     private String imageurl;
 
     public String getId() {
@@ -25,6 +26,14 @@ public class Character {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getImageurl() {
         return imageurl;
     }
@@ -33,11 +42,13 @@ public class Character {
         this.imageurl = imageurl;
     }
 
+
     // helper functions
     public static Character create(JsonObject joResult, JsonObject thumbnail) {
         Character c = new Character();
         c.setId(Integer.toString(joResult.getInt("id")));
         c.setName(joResult.getString("name"));
+        c.setDescription(joResult.getString("description"));
         c.setImageurl(thumbnail.getString("path") + "." + thumbnail.getString("extension"));
         return c;
     }
@@ -46,6 +57,7 @@ public class Character {
         return Json.createObjectBuilder()
             .add("id", id)
             .add("name", name)
+            .add("description", description)
             .add("imageurl", imageurl)
             .build();
     }

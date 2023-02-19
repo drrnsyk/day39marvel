@@ -39,6 +39,7 @@ export class MarvelService {
                         return {
                             id: c.id,
                             name: c.name,
+                            description: c.description,
                             imageurl: c.imageurl
                         } as Character
                     })
