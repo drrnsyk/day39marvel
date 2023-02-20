@@ -24,6 +24,8 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 
 import vttp2022.workshop39marvel.model.Character;
+import vttp2022.workshop39marvel.model.InsertedComment;
+import vttp2022.workshop39marvel.repository.MarvelMongoRepository;
 import vttp2022.workshop39marvel.repository.MarvelRedisRepository;;
 
 @Service
@@ -31,6 +33,9 @@ public class MarvelService {
     
     @Autowired
     private MarvelRedisRepository marvelRedisRepo;
+
+    @Autowired
+    private MarvelMongoRepository marvelMongoRepo;
     
     // api call from marvel
     public static final String URL_NAME = "https://gateway.marvel.com:443/v1/public/characters";
@@ -221,5 +226,14 @@ public class MarvelService {
             return joCharacter.toString(); // stringify the json object and return as string to controller
 
         }       
+    }
+
+    public String insertComment(InsertedComment insertedComment) {
+        
+        InsertedComment insertedCommentResult = marvelMongoRepo.insertComment(insertedComment);
+
+        JsonObject joInsertedComment = insertedCommentResult.toJson();
+        
+        return  joInsertedComment.toString();
     }
 }

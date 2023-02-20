@@ -4,3 +4,7 @@ export interface Character {
     description: string
     imageurl: string
 }
+
+export interface CommentObj {
+    comment: string
+}

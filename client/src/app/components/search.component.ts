@@ -40,8 +40,8 @@ export class SearchComponent implements OnInit {
     this.offsetCurrentIndex = 0
     this.pageNo = 1
     this.searchTerm = this.searchForm.get('searchTerm')?.value
-    console.info('>>> ngSubmit(): searchTerm: ', this.searchTerm)
-    console.info(">>> ngSubmit(): noOfRecPerPage: ", this.noOfRecPerPage)
+    console.info('>>> searchForm: ngSubmit(): searchTerm: ', this.searchTerm)
+    console.info(">>> searchForm: ngSubmit(): noOfRecPerPage: ", this.noOfRecPerPage)
     this.marvelSvc.getCharacters(this.searchTerm, this.noOfRecPerPage, this.offsetCurrentIndex) // calls the service to make http request to spring boot
       .then(result => { // get the result from the http request
         this.characters = result // since it is already a jsonarray string, type cast into a list, so it can be retured directly here

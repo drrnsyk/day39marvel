@@ -1,10 +1,18 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { firstValueFrom, map, take } from "rxjs";
-import { Character } from "./model";
+import { BehaviorSubject, firstValueFrom, map, Observable, Subject, take } from "rxjs";
+import { Character, CommentObj } from "./model";
 
 @Injectable()
 export class MarvelService {
+
+    // declare a subject to emit event out and for components to listen to this
+    // onCharacterSearch = new Subject<Character>()
+    // Create a BehaviorSubject to hold the character being searched
+    onCharacterSearch: BehaviorSubject<Character | null> = new BehaviorSubject<Character | null>(null);
+  
+    // Make the BehaviorSubject observable to other components
+    onCharacterSearch$ = this.onCharacterSearch.asObservable();
 
     /* the service is use to make http request, the data from the request can be pass 
     from the service to any of the component. just use the component that you want the data
@@ -40,10 +48,28 @@ export class MarvelService {
                             id: c.id,
                             name: c.name,
                             description: c.description,
-                            imageurl: c.imageurl
+                            imageurl: c.imageurl,
                         } as Character
                     })
                 )
         )
+        .then((characterObject) => {
+            console.log("Character object emitted:", characterObject);
+            this.onCharacterSearch.next(characterObject) // send out the data to whichever component listening
+            console.log("Character object emitted successfully!");
+            return characterObject;
+        })
+    }
+
+    postCommentToMongo(id: string, commentObj: CommentObj): Promise<Comment> {
+
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+
+        return firstValueFrom(
+            this.http.post<Comment>(`/api/character/${id}/comment`, commentObj, { headers: headers })
+        )
+
     }
 }

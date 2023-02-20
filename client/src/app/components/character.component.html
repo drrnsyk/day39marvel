@@ -9,5 +9,16 @@
             </tr>
             <tr><td [width]="300">{{character.description}}</td></tr>
         </table>
+
+        <br>
+
+        <table>
+            <tr>
+                <td><a [routerLink]="[ '/character', character.id, 'comment' ]"><button type="button">Comment</button></a></td>
+            </tr>
+            <tr>
+                <td><a [routerLink]="[ '/' ]"><button type="button">Back to search</button></a></td>
+            </tr>
+        </table>
     </ul>
 </div>

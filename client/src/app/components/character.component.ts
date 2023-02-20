@@ -18,15 +18,15 @@ export class CharacterComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private marvelSvc: MarvelService) {}
 
-  // retrieving the route paramemter id from the url, go to search component.html to activate the route
+  // retrieving the route paramemeter id from the url, go to search component.html to activate the route
   ngOnInit(): void {
       this.params$ = this.activatedRoute.params.subscribe(
         (params)=>{
           this.id = params['id']
-          console.info('>>> id: ', this.id)
+          console.info('>>> characterComponent: id: ', this.id)
           this.marvelSvc.getCharacterById(this.id)
             .then(result => {
-              console.info('>>> in then, result: ', result)
+              console.info('>>> characterComponent: in then, result: ', result)
               this.character = result
             })
             .catch(error => {
