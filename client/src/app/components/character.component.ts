@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MarvelService } from '../marvel.service';
-import { Character } from '../model';
+import { Character, InsertedComment } from '../model';
 
 @Component({
   selector: 'app-character',
@@ -14,6 +14,7 @@ export class CharacterComponent implements OnInit {
   id = ''
   params$!: Subscription
   character!: Character
+  insertedComments: InsertedComment[] = []
 
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private marvelSvc: MarvelService) {}
@@ -30,8 +31,19 @@ export class CharacterComponent implements OnInit {
               this.character = result
             })
             .catch(error => {
-              console.info('>>> in error')
-              console.error('>>> error: ', error)
+              console.info('>>> characterComponent: in error')
+              console.error('>>> characterComponent: error: ', error)
+            })
+          
+          // get comments from mongodb by id
+          this.marvelSvc.getComments(this.id)
+            .then(result => {
+              console.info('>>> characterComponent: in then, result: ', result)
+              this.insertedComments = result
+            })
+            .catch(error => {
+              console.info('>>> characterComponent: in error')
+              console.error('>>> characterComponent: error: ', error)
             })
         }
       )

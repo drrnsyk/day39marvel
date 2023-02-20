@@ -39,7 +39,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       (params) => {
         this.id = params['id']
         console.info('>>> commentComponent: id: ', this.id)
-        // get comments from mongodb by id
       }
     )
 

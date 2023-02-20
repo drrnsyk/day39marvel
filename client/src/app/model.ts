@@ -8,3 +8,8 @@ export interface Character {
 export interface CommentObj {
     comment: string
 }
+
+export interface InsertedComment {
+    comment: string
+    postedDate: string
+}

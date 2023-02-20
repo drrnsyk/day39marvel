@@ -130,8 +130,6 @@ public class MarvelService {
 
     }
 
-
-
     public String getCharacterById(String characterId) {
 
         // check if character is in redis cache
@@ -235,5 +233,23 @@ public class MarvelService {
         JsonObject joInsertedComment = insertedCommentResult.toJson();
         
         return  joInsertedComment.toString();
+    }
+
+    public String getCommentsById(String id, int limit) {
+
+        List<InsertedComment> insertedComments = marvelMongoRepo.getCommentsById(id, limit);
+
+        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+        insertedComments.stream() 
+            .forEach(i -> {
+                arrBuilder.add(i.toJson());
+            });
+        
+        JsonArray jsonArrayInsertedComments = arrBuilder.build();
+
+        String jsonStringInsertedComments = jsonArrayInsertedComments.toString();
+
+        // return a jsonArrayString
+        return jsonStringInsertedComments;
     }
 }

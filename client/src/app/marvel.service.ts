@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, firstValueFrom, map, Observable, Subject, take } from "rxjs";
-import { Character, CommentObj } from "./model";
+import { Character, CommentObj, InsertedComment } from "./model";
 
 @Injectable()
 export class MarvelService {
@@ -70,6 +70,14 @@ export class MarvelService {
         return firstValueFrom(
             this.http.post<Comment>(`/api/character/${id}/comment`, commentObj, { headers: headers })
         )
+    }
 
+    getComments(id: string): Promise<InsertedComment[]> {
+        const params = new HttpParams()
+        .set("id", id)
+
+        return firstValueFrom(
+            this.http.get<InsertedComment[]>('/api/character/comments', { params })
+        )
     }
 }

@@ -14,11 +14,41 @@
 
         <table>
             <tr>
-                <td><a [routerLink]="[ '/character', character.id, 'comment' ]"><button type="button">Comment</button></a></td>
-            </tr>
-            <tr>
                 <td><a [routerLink]="[ '/' ]"><button type="button">Back to search</button></a></td>
             </tr>
         </table>
+
+        <br>
+        <hr [width]="300" align="left">
+        <br>
+
+        <table>
+            <tr>
+                <td><a [routerLink]="[ '/character', character.id, 'comment' ]"><button type="button">Insert comment</button></a></td>
+            </tr>
+        </table>
+
+        <div>
+            <table>
+                <tr>
+                    <td><h3>List of comments:</h3></td>
+                </tr>
+            </table>
+    
+            <div *ngFor="let i of insertedComments">
+                <table>
+                    <tr>
+                        <b>Comment:</b>
+                    </tr>
+                    <tr>
+                        <td [width]="200">{{i.comment}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{i.postedDate}}</td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+        </div>
     </ul>
 </div>

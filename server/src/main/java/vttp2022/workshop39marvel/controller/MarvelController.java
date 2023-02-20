@@ -68,5 +68,17 @@ public class MarvelController {
 
         return ResponseEntity.ok(jsonStringInsertedComment);
     }
+
+    @GetMapping(value="/character/comments", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<String> getComments(@RequestParam String id, @RequestParam(defaultValue="20") int limit) {
+
+        System.out.printf(">>> query param: id=%s\n", id);
+        System.out.printf(">>> query param: limit=%d\n", limit);
+
+        String jsonStringInsertedComments = marvelSvc.getCommentsById(id, limit);
+
+        return ResponseEntity.ok(jsonStringInsertedComments);
+    }
  
 }

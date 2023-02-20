@@ -1,7 +1,11 @@
 package vttp2022.workshop39marvel.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import vttp2022.workshop39marvel.model.InsertedComment;
@@ -14,6 +18,12 @@ public class MarvelMongoRepository {
 
     public InsertedComment insertComment(InsertedComment insertedComment) {
         return mongoTemplate.insert(insertedComment, "comments");
+    }
+
+    public List<InsertedComment> getCommentsById(String id, int limit) {
+        Query query = new Query(Criteria.where("characterId").is(id)).limit(limit);
+        List<InsertedComment> insertedComments = mongoTemplate.find(query, InsertedComment.class, "comments");
+        return insertedComments;
     }
 
 }
